@@ -17,8 +17,8 @@ ltr_mismt <- -3
 sqv1 <- c(" ", string2vec(seq1))
 sqv2 <- c(" ", string2vec(seq2))
 
-colnames(smx) <- sqv2
-row.names(smx) <- sqv1
+  colnames(smx) <- sqv2
+  row.names(smx) <- sqv1
 
 # calculate  scores
 for (ri in 2:n_r) {
@@ -67,4 +67,7 @@ s <- paste(rev(s), collapse = "")
 
 
 # build emppty prefix string and prepend
-s <- paste0(paste(rep(" ", ci-2), collapse = ""), s)
+s <- paste0(paste(rep(" ", ci - 2), collapse = ""), s)
+
+s
+

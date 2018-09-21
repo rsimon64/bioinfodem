@@ -3,19 +3,24 @@ title: "demo1"
 author: "Reinhard Simon"
 date: "9/21/2018"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   word_document: default
 ---
 
-# Init
+## Init
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Definir secuencias
 
-```{r}
+- seq1
+- seq2
+- seq3
+
+```{r define_sequences}
 library(Biostrings)
 
  s1 <- 
