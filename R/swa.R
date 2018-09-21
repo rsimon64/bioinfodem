@@ -80,3 +80,11 @@ seq2 = "ggttgacta"
 
 cat(paste(seq2, "\n"))
 cat(swa(seq1, seq2))
+
+
+# Tests
+swa(seq1, seq2) == " gtt-ac-a"
+
+seq1 = "tgttac"
+seq2 = "ggttacta"
+swa(seq1, seq2) == " gttac"

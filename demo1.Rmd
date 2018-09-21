@@ -2,14 +2,19 @@
 title: "demo1"
 author: "Reinhard Simon"
 date: "9/21/2018"
+bibliography: "references.bib"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+options("citation_format" = "pandoc")
+library("knitcitations")
+cleanbib()
 ```
 
 # Obteniendo datos
@@ -18,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 term <- "Solanum tuberosum[Organism]"
 ```
 
-Se realizó una busqueda en la base de datos ENTREZ con el 'term': *`r term`*.
+Se realizó una busqueda en la base de datos ENTREZ `r citep("10.1093/nar/gki031")` con el 'term': *`r term`* y usando el paquete **rentrez** `r citep(citation("rentrez"))`. Además, usamos los paquetes knitr `r citep(citation("knitr"))`, knitcations `r citep(citation("knitcitations"))`, msa `r citep(citation("msa"))`, seqinr `r citep(citation("seqinr"))` y ape `r citep(citation("ape"))`.
 
 
 ```{r get_data}
@@ -35,7 +40,7 @@ write(sol, "inst/datos/sol.fasta")
 
 Los siguients datasets son disponibles a la fecha indicada: *`r paste(ids, collapse = ", ")`*.
 
-```{r align, message=FALSE, warning=FALSE, fig.width=8.5}
+```{r align, message=FALSE, warning=FALSE, fig.width=10}
 library(msa)
 library(knitr)
 
@@ -46,19 +51,19 @@ include_graphics("msa_aln2.pdf")
 ```
 
 
-```{r phylo_dist}
+```{r phylo_dist,  message=FALSE, warning=FALSE}
 
 library(seqinr)
 
 msa_aln <- msaConvert(msa_aln2, type="seqinr::alignment")
 d <- dist.alignment(msa_aln, "identity")
-d
+head(d)
 
 ```
 
 
 
-```{r phylo_tree}
+```{r phylo_tree,  message=FALSE, warning=FALSE}
 
 library(ape)
 soltree <- nj(d)
@@ -72,4 +77,20 @@ plot(soltree, main = plot_title)
 
 
 ```
+
+# Apendices
+
+```{r session}
+sessionInfo()
+```
+
+
+# Referencias
+
+```{r refs, echo=FALSE, message=FALSE}
+write.bibtex(file="references.bib")
+```
+
+
+
 
