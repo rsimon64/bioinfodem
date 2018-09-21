@@ -1,0 +1,57 @@
+---
+title: "demo1"
+author: "Reinhard Simon"
+date: "9/21/2018"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(Biostrings)
+
+ s1 <- 
+    DNAString("ACTTCACCAGCTCCCTGGCGGTAAGTTGATCAAAGGAAACGCAAAGTTTTCAAG")
+  s2 <-
+    DNAString("GTTTCACTACTTCCTTTCGGGTAAGTAAATATATAAATATATAAAAATATAATTTTCATC")
+
+  # First use a fixed substitution matrix
+  mat <- nucleotideSubstitutionMatrix(match = 1, mismatch = -3, baseOnly = TRUE)
+  
+
+  mat
+```
+
+
+
+```{r}
+
+  localAlign <-
+    pairwiseAlignment(s1, s2, type = "local", substitutionMatrix = mat,
+                      gapOpening = 5, gapExtension = 2)
+  
+  as.character(localAlign)
+  
+  aligned(subject(localAlign))
+ 
+```
+
+```{r}
+
+  globalAlign <-
+    pairwiseAlignment(s1, s2, substitutionMatrix = mat,
+                      gapOpening = 5, gapExtension = 2)
+
+as.character(globalAlign)
+```
+
+
+
+
+

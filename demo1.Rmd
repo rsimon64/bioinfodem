@@ -67,8 +67,8 @@ dna <- read.dna("inst/datos/sol.fasta", format = "fasta" )
 species_label <- stringr::str_extract(names(dna), "(Ipomoea|Solanum|Turbina)(\\s){1}[a-z]{1,15}")
 
 soltree$tip.label <- species_label[as.integer(soltree$tip.label)]
-
-plot(soltree, main = sol_id)
+plot_title <- stringr::str_split(ids[4], ";")[[1]][1]
+plot(soltree, main = plot_title)
 
 
 ```
