@@ -88,3 +88,8 @@ swa(seq1, seq2) == " gtt-ac-a"
 seq1 = "tgttac"
 seq2 = "ggttacta"
 swa(seq1, seq2) == " gttac"
+
+seq1 = "acctaagg"
+seq2 = "ggctcaatca"
+swa(seq1, seq2) == "  ct-aa"
+
