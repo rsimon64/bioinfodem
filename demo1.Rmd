@@ -1,0 +1,75 @@
+---
+title: "demo1"
+author: "Reinhard Simon"
+date: "9/21/2018"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Obteniendo datos
+
+```{r term}
+term <- "Solanum tuberosum[Organism]"
+```
+
+Se realizó una busqueda en la base de datos ENTREZ con el 'term': *`r term`*.
+
+
+```{r get_data}
+library(rentrez)
+st_search <- entrez_search(db="popset", term=term)
+st_summs <- entrez_summary(db = "popset", id = st_search$ids)
+titles <- extract_from_esummary(st_summs, "title")
+ids <- unname(titles)
+sol_id <- st_search$ids[4]
+sol <- entrez_fetch(db="popset", id=sol_id, rettype="fasta")
+write(sol, "inst/datos/sol.fasta")
+
+```
+
+Los siguients datasets son disponibles a la fecha indicada: *`r paste(ids, collapse = ", ")`*.
+
+```{r align, message=FALSE, warning=FALSE, fig.width=8.5}
+library(msa)
+library(knitr)
+
+msa_aln2 <- msa("inst/datos/sol.fasta", type = "dna")
+msaPrettyPrint(msa_aln2, output = "tex", askForOverwrite = FALSE)
+system("pdflatex msa_aln2.tex")
+include_graphics("msa_aln2.pdf")
+```
+
+
+```{r phylo_dist}
+
+library(seqinr)
+
+msa_aln <- msaConvert(msa_aln2, type="seqinr::alignment")
+d <- dist.alignment(msa_aln, "identity")
+d
+
+```
+
+
+
+```{r phylo_tree}
+
+library(ape)
+soltree <- nj(d)
+
+dna <- read.dna("inst/datos/sol.fasta", format = "fasta" )
+species_label <- stringr::str_extract(names(dna), "(Ipomoea|Solanum|Turbina)(\\s){1}[a-z]{1,15}")
+
+soltree$tip.label <- species_label[as.integer(soltree$tip.label)]
+
+plot(soltree, main = sol_id)
+
+
+```
+
